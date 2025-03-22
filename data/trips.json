@@ -1,0 +1,17 @@
+[
+    {
+        "name" : "Gale Reef",
+        "image" : "reef1.jpg",
+        "description" : "<p>A beautiful coral reef teeming with marine life."
+    } ,
+    {
+        "name" : "Dawson's Reef",
+        "image" : "reef2.jpg",
+        "description" : "<p>A vibrant reef known for its stunning underwater scenery."
+    } ,
+    {
+        "name" : "Claire's Reef",
+        "image" : "reef3.jpg",
+        "description" : "<p>A secluded reef perfect for snorkeling and diving."
+    }
+]
