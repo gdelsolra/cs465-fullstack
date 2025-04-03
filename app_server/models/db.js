@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 // DEBUG: Seeing if this is the problem. const host = process.env.DB_HOST || '127.0.0.1';
-const dbURI = `mongodb://127.0.0.1:/travlr`;
+const dbURI = `mongodb://127.0.0.1:27017/travlr`;
 const readLine = require('readline');
 
 // Build the connection string and set the connection timeout.
