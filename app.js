@@ -1,55 +1,65 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+// app.js
+
+const createError     = require('http-errors');
+const express         = require('express');
+const path            = require('path');
+const cookieParser    = require('cookie-parser');
+const logger          = require('morgan');                
 
 // Define routers 
-var indexRouter = require('./app_server/routes/index');
-var usersRouter = require('./app_server/routes/users');
-var travelRouter = require('./app_server/routes/travel');
-var apiRouter = require('./app_api/routes/index');
+const indexRouter     = require('./app_server/routes/index');
+const usersRouter     = require('./app_server/routes/users');
+const travelRouter    = require('./app_server/routes/travel');
+const apiRouter       = require('./app_api/routes/index');
 
-var handlebars = require('hbs');
+require('./app_api/models/db');                            // bring in DB
 
-//Bring in the database
-require('./app_api/models/db');
-
-var app = express();
+const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'app_server','views'));
-
+app.set('views', path.join(__dirname, 'app_server', 'views'));
 app.set('view engine', 'hbs');
 
-// register handlebars partials (https://npmjs.com/package/hbs)
-handlebars.registerPartials(__dirname + '/app_server/views/partials');
+// register partials
+const handlebars = require('hbs');
+handlebars.registerPartials(path.join(__dirname, 'app_server', 'views', 'partials'));
 
+// standard middleware
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// --------------------------------------------------------------------------------
+// CORS: allow only your Angular dev server and handle preflight automatically
+// --------------------------------------------------------------------------------
+app.use('/api', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  next();
+});
+
+// mount your API under /api
+app.use('/api', apiRouter);
+
+// other routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/travel', travelRouter);
-app.use('/api', apiRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
+// catch 404 and forward
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+app.use((err, req, res, next) => {
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
+  res.locals.error   = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
   res.render('error');
 });
 
-module.exports = app;
+module.exports = app; 
