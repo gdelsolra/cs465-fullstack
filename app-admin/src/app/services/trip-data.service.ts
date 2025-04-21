@@ -6,6 +6,7 @@ import { Trip } from '../models/trip';
 import { User } from '../models/user';
 import { AuthResponse } from '../models/authresponse';
 import { BROWSER_STORAGE } from '../storage';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +33,11 @@ export class TripDataService {
     //console.log('Inside TripDataService::getTrips')
     return this.http.get<Trip[]>(this.url + '/' + tripCode);
   }
-  updateTrip(formData: Trip ): Observable<Trip> {
-    return this.http.put<Trip>(this.url + '/' + formData.code, formData);
+  updateTrip(formData: Trip): Observable<Trip> {
+    const token = this.storage.getItem('travlr-token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  
+    return this.http.put<Trip>(this.url + '/' + formData.code, formData, { headers });
   }
 
   private handleError(error:any): Promise<any>{
