@@ -1,18 +1,35 @@
-const express           = require('express');
-const router            = express.Router();
-const tripsController   = require('../controllers/trips');
+const express = require('express');
+const router = express.Router();
 
-// Define route for our trips endpoint 
+// This is the updated way to import express-jwt in version 7+
+const { expressjwt: jwt } = require('express-jwt');
+
+// Updated option name: use "requestProperty" instead of "userProperty"
+const auth = jwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ['HS256'],
+  requestProperty: 'payload'
+});
+
+const authController = require('../controllers/authentication');
+const tripsController = require('../controllers/trips');
+
+router
+  .route('/login')
+  .post(authController.login);
+
+router
+  .route('/register')
+  .post(authController.register);
+
 router
   .route('/trips')
-  .get(tripsController.tripList)        
-  .post(tripsController.tripsAddTrip);
+  .get(tripsController.tripList)
+  .post(auth, tripsController.tripsAddTrip);
 
-// GET method routes tripsFindByCode - requieres parameter
-// PUT method routes tripsUpdateTrip - requires parameter
 router
   .route('/trips/:tripCode')
   .get(tripsController.tripsFindByCode)
-  .put(tripsController.tripsUpdateTrip);
+  .put(auth, tripsController.tripsUpdateTrip);
 
 module.exports = router;
