@@ -44,31 +44,31 @@ API requests involved various HTTP methods (`GET`, `POST`, `PUT`, `DELETE`) and 
 
 ### 🔐 Admin Login Page  
 Login screen for secure access:  
-![Admin Login](./screenshots/admin-login.png)
+![Admin Login](./public/screenshots/admin-login.png)
 
 ---
 
 ### 🗂️ Admin Dashboard  
 Overview of all trips with "Add" and "Edit" options:  
-![Admin Dashboard](./screenshots/admin-dashboard.png)
+![Admin Dashboard](./public/screenshots/admin-dashboard.png)
 
 ---
 
 ### ➕ Add New Trip  
 Form for entering a new trip to the database:  
-![Add Trip](./screenshots/admin-add-trips-button.png)
+![Add Trip](./public/screenshots/admin-add-trips-button.png)
 
 ---
 
 ### ✏️ Edit Existing Trip  
 Admins can modify trip details with this form:  
-![Edit Trip](./screenshots/admin-edit-trips-button.png)
+![Edit Trip](./public/screenshots/admin-edit-trips-button.png)
 
 ---
 
 ### 🌍 Customer-Facing Updated View  
 Newly added or edited trip now appears for all customers:  
-![Customer Updated View](./screenshots/customer-side-new-trips.png)
+![Customer Updated View](./public/screenshots/customer-side-new-trips.png)
 
 ---
 
